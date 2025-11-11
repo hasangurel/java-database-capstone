@@ -1,0 +1,31 @@
+name: Docker CI - Lint Dockerfile
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'app/Dockerfile'
+      - 'docker-compose.yml'
+      - '.github/workflows/docker-ci.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'app/Dockerfile'
+      - 'docker-compose.yml'
+
+jobs:
+  lint-dockerfile:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Run Hadolint
+      uses: hadolint/hadolint-action@v3.1.0
+      with:
+        dockerfile: app/Dockerfile
+        failure-threshold: warning
+
+    - name: Lint result
+      run: echo "Dockerfile linting completed"

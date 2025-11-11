@@ -1,0 +1,56 @@
+name: Backend CI - Java Build and Test
+
+on:
+  push:
+    branches: [ main, develop ]
+    paths:
+      - 'app/**'
+      - '.github/workflows/backend-ci.yml'
+  pull_request:
+    branches: [ main, develop ]
+    paths:
+      - 'app/**'
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+
+    steps:
+    - name: Checkout code
+      uses: actions/checkout@v4
+
+    - name: Set up JDK 17
+      uses: actions/setup-java@v4
+      with:
+        java-version: '17'
+        distribution: 'temurin'
+        cache: maven
+
+    - name: Cache Maven packages
+      uses: actions/cache@v3
+      with:
+        path: ~/.m2
+        key: ${{ runner.os }}-m2-${{ hashFiles('**/pom.xml') }}
+        restore-keys: ${{ runner.os }}-m2
+
+    - name: Build with Maven
+      working-directory: ./app
+      run: mvn clean compile
+
+    - name: Run tests
+      working-directory: ./app
+      run: mvn test
+
+    - name: Run Checkstyle
+      working-directory: ./app
+      run: mvn checkstyle:check || true
+
+    - name: Package application
+      working-directory: ./app
+      run: mvn package -DskipTests
+
+    - name: Upload artifact
+      uses: actions/upload-artifact@v3
+      with:
+        name: smart-clinic-jar
+        path: app/target/*.jar

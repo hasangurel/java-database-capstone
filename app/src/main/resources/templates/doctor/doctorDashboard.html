@@ -1,0 +1,137 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Doctor Dashboard - Smart Clinic</title>
+    <link rel="stylesheet" href="/css/style.css">
+    <link rel="stylesheet" href="/assets/css/doctorDashboard.css">
+</head>
+<body>
+    <div id="header"></div>
+
+    <div class="dashboard-container">
+        <aside class="sidebar">
+            <div class="sidebar-header">
+                <h2>Doctor Panel</h2>
+            </div>
+            <nav class="sidebar-nav">
+                <a href="#" class="nav-item active" data-section="appointments">
+                    <span>My Appointments</span>
+                </a>
+                <a href="#" class="nav-item" data-section="prescriptions">
+                    <span>Prescriptions</span>
+                </a>
+                <a href="#" class="nav-item" data-section="profile">
+                    <span>My Profile</span>
+                </a>
+            </nav>
+        </aside>
+
+        <main class="main-content">
+            <!-- Appointments Section -->
+            <section id="appointments-section" class="content-section active">
+                <div class="section-header">
+                    <h1>My Appointments</h1>
+                </div>
+
+                <div class="filters">
+                    <input type="text" id="appointmentSearch" placeholder="Search by patient name...">
+                    <input type="date" id="dateFilter">
+                    <select id="statusFilter">
+                        <option value="">All Status</option>
+                        <option value="SCHEDULED">Scheduled</option>
+                        <option value="COMPLETED">Completed</option>
+                        <option value="CANCELLED">Cancelled</option>
+                    </select>
+                </div>
+
+                <div id="appointmentsList" class="cards-grid"></div>
+            </section>
+
+            <!-- Prescriptions Section -->
+            <section id="prescriptions-section" class="content-section">
+                <div class="section-header">
+                    <h1>Prescriptions</h1>
+                    <button class="btn-primary" id="addPrescriptionBtn">Create Prescription</button>
+                </div>
+
+                <div id="prescriptionsList" class="table-container">
+                    <table class="data-table">
+                        <thead>
+                            <tr>
+                                <th>Date</th>
+                                <th>Patient Name</th>
+                                <th>Diagnosis</th>
+                                <th>Medications</th>
+                                <th>Actions</th>
+                            </tr>
+                        </thead>
+                        <tbody id="prescriptionsTableBody"></tbody>
+                    </table>
+                </div>
+            </section>
+
+            <!-- Profile Section -->
+            <section id="profile-section" class="content-section">
+                <div class="section-header">
+                    <h1>My Profile</h1>
+                </div>
+
+                <div class="profile-card">
+                    <div id="doctorProfile"></div>
+                </div>
+            </section>
+        </main>
+    </div>
+
+    <!-- Add Prescription Modal -->
+    <div id="prescriptionModal" class="modal">
+        <div class="modal-content large">
+            <span class="close">&times;</span>
+            <h2>Create Prescription</h2>
+            <form id="prescriptionForm">
+                <div class="form-group">
+                    <label for="appointmentId">Appointment ID *</label>
+                    <input type="number" id="appointmentId" required>
+                </div>
+                <div class="form-group">
+                    <label for="patientId">Patient ID *</label>
+                    <input type="number" id="patientId" required>
+                </div>
+                <div class="form-group">
+                    <label for="patientName">Patient Name *</label>
+                    <input type="text" id="patientName" required>
+                </div>
+                <div class="form-group">
+                    <label for="diagnosis">Diagnosis *</label>
+                    <textarea id="diagnosis" rows="3" required></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="instructions">Instructions</label>
+                    <textarea id="instructions" rows="2"></textarea>
+                </div>
+                <div class="form-group">
+                    <label for="notes">Notes</label>
+                    <textarea id="notes" rows="2"></textarea>
+                </div>
+                <button type="submit" class="btn-primary">Save Prescription</button>
+            </form>
+        </div>
+    </div>
+
+    <!-- View Prescription Modal -->
+    <div id="viewPrescriptionModal" class="modal">
+        <div class="modal-content">
+            <span class="close">&times;</span>
+            <h2>Prescription Details</h2>
+            <div id="prescriptionDetails"></div>
+        </div>
+    </div>
+
+    <script src="/js/components/header.js"></script>
+    <script src="/js/components/modal.js"></script>
+    <script src="/js/services/doctorService.js"></script>
+    <script src="/js/doctorDashboard.js"></script>
+</body>
+</html>
